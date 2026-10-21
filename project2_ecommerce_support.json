@@ -1,0 +1,156 @@
+{
+  "name": "My workflow 3",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "options": {
+          "systemMessage": "You are the official AI Sales Assistant for Taimoori Wear. Your job is to help customers, answer product questions naturally, and guide them through our secure ordering process.\n\nCore Rules & Behavior:\n1. Language Matching: Detect the language the customer is using (English, Urdu, or Roman Urdu) and reply in that exact same language naturally.\n2. Store & Product Knowledge: Answer inquiries about clothing items, fabrics, sizes, and pricing based on our apparel catalog. Be polite, helpful, and professional.\n3. Order Confirmation & Shipping Policy: When a customer confirms they want to place an order, clearly explain our advance payment and delivery charges policy:\n   - Option A: If they pay 50% in advance, the customer pays the delivery charges.\n   - Option B: If they pay 100% in advance, Taimoori Wear covers/pays the delivery charges completely as a bonus.\n4. Payment Collection: Once the customer chooses their payment option, provide our EasyPaisa account details along with the exact Title Name, ask them to make the payment, and request them to send a screenshot of the receipt to finalize the order. a helpful assistant"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -448,
+        0
+      ],
+      "id": "0ff99b49-0828-497d-b7d3-0529fa29f4db",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        -416,
+        176
+      ],
+      "id": "bbe6446d-701d-421c-95bf-19bdd7628c36",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/10LDBdcELtxlaJWFl88EHj9A6jxxh-hpRYsTTjKsvavg/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Sheet1",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        -240,
+        224
+      ],
+      "id": "b40bd735-ab71-4972-a789-007cdfe09201",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "WssXaRHrnhCSFCvY",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        -624,
+        0
+      ],
+      "id": "f10c9de3-7866-43c7-b883-8ae251521bee",
+      "name": "When chat message received",
+      "webhookId": "211f002c-726a-49eb-8888-33d2dc716db9"
+    },
+    {
+      "parameters": {
+        "model": "nvidia/nemotron-3-super-120b-a12b:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -592,
+        208
+      ],
+      "id": "27bb9e74-933c-4bbd-8c5c-72c54b34d396",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "HS5vAxhP0p6S9mA8",
+          "name": "OpenRouter account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "4bd6e23d-1d2d-4bd9-8cd2-137f532faa17",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "28803c9748fbf54057279d560844ad7d71a13b1a24714cfda144199f10319905"
+  },
+  "nodeGroups": [],
+  "id": "z1RPgd1xLmUQT0Gl",
+  "tags": []
+}

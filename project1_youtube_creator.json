@@ -1,0 +1,171 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "2d399a07-77c8-4bb9-9176-0919f00545b5",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pick today's topic automatically\nconst topics = [\n  \"AI kya hai simple Urdu mein\",\n  \"ChatGPT kaise use karein\",\n  \"AI aur Machine Learning farq\",\n  \"Python install karna sikho\",\n  \"Google Colab free mein use karo\",\n  \"Groq API free kaise milti hai\",\n  \"AI agent kya hota hai\",\n  \"LangChain kya hai\",\n  \"Free AI tools Pakistan mein\",\n  \"AI se kya kaam kar sakte hain\",\n  \"Python basics part 1\",\n  \"Python basics part 2\",\n  \"CrewAI kya hai tutorial\",\n  \"Multi agent system banana\",\n  \"AI se data analysis karo\",\n  \"CSV file AI se analyze karo\",\n  \"AI se Excel report banao\",\n  \"Voice AI agent banana\",\n  \"RAG system banana\",\n  \"YouTube automation agent banana\",\n  \"AI freelancing Pakistan mein\",\n  \"AI se CV banana\",\n  \"AI business ideas 2027\",\n  \"Online paise AI se kamao\",\n  \"Google internship AI se pao\"\n];\n\n// Get day number automatically\nconst today = new Date();\nconst startOfYear = new Date(today.getFullYear(), 0, 0);\nconst dayOfYear = Math.floor((today - startOfYear) / 86400000);\nconst topicIndex = dayOfYear % topics.length;\n\nreturn [{\n  json: {\n    topic: topics[topicIndex],\n    day_number: dayOfYear,\n    date: today.toDateString()\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "id": "892e6c85-7dac-4a4f-8025-a961f869db1c",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://many-walls-accept.loca.lt/create-video",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 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"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"day_number\": 1\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        384,
+        0
+      ],
+      "id": "5d5763b7-168b-409e-80fb-132fc8f68687",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "operation": "upload",
+        "title": "=Taimoori Tech Test Video",
+        "regionCode": "PK",
+        "categoryId": "=28",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.youTube",
+      "typeVersion": 1,
+      "position": [
+        880,
+        0
+      ],
+      "id": "70014729-537c-46c6-9eeb-7a67c5780bff",
+      "name": "Upload a video",
+      "credentials": {
+        "youTubeOAuth2Api": {
+          "id": "DlgbkHcKcSO9KxTf",
+          "name": "YouTube account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Read the binary file from the previous node and pass it forward with text\nconst binaryData = $input.item.binary;\nreturn [{\n  json: {\n    title: \"Taimoori Tech Test Video\"\n  },\n  binary: binaryData\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        656,
+        0
+      ],
+      "id": "f19354a0-2c8b-4878-9dac-43d6c52674b1",
+      "name": "Code in JavaScript1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Upload a video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "5fbd55c1-a5e1-4d35-819f-8215936ac47d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "28803c9748fbf54057279d560844ad7d71a13b1a24714cfda144199f10319905"
+  },
+  "nodeGroups": [],
+  "id": "vtmMJf877HpJGp4O",
+  "tags": []
+}
