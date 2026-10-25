@@ -7,6 +7,8 @@ This repository contains advanced AI automation workflows built with n8n. These 
 ## 📁 Project 1: Autonomous AI YouTube Content Creator
 **File:** `project1_youtube_creator.json`
 
+**🎥 Video Demo:** [Watch here](https://youtu.be/XIMC0A1LygY)
+
 **What it does:** 
 An autonomous AI agent that researches selected content, generates a script, creates a voiceover, assembles a video, and automatically uploads it to YouTube on a schedule. 
 
@@ -23,6 +25,8 @@ An autonomous AI agent that researches selected content, generates a script, cre
 
 ## 📁 Project 2: AI E-Commerce Customer Support Agent
 **File:** `project2_ecommerce_support.json`
+
+**🎥 Video Demo:** [Watch here](https://youtu.be/XJT-XiKTOWo)
 
 **What it does:**
 An intelligent AI chatbot designed for online stores. It acts as a virtual sales assistant and support agent, handling customer queries 24/7.
